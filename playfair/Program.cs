@@ -44,8 +44,10 @@ namespace playfair
             char[,] karakterKodolo = Feltoltes();
             PlayfairKodolo playfairKodolo = new PlayfairKodolo(karakterKodolo);
             Kereses(playfairKodolo);
-            string AAAA = playfairKodolo.KodolBetupar("IH");
-            Console.WriteLine(AAAA);
+            Console.Write("Kérek egy betűpárt: ");
+            string karakterpar = Console.ReadLine();
+            string kodol = playfairKodolo.KodolBetupar(karakterpar);
+            Console.WriteLine($"Kódolva: {kodol}");
         }
     }
 }

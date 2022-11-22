@@ -58,65 +58,26 @@ namespace playfair
             return -1;
         }
 
-        public string KodolBetupar(string Betupar)
+        public string KodolBetupar(string bp)
         {
-            int betuSor1 = SorIndex(Betupar[0]);
-            int betuOszlo1 = OszlopIndex(Betupar[0]);
-            int betuSor2 = SorIndex(Betupar[1]);
-            int betuOszlo2 = OszlopIndex(Betupar[1]);
-            
-            if(betuOszlo1 + 1 >= 5 && betuSor1 == betuSor2)
-            {
-                betuOszlo1 = 0;
-                betuOszlo2++;
-
-                return $"{karakterMatrix[betuSor1, betuOszlo1]}{karakterMatrix[betuSor2, betuOszlo2]}";
-            }
-
-            if (betuOszlo2 + 1 >= 5 && betuSor1 == betuSor2)
-            {
-                betuOszlo2 = 0;
-                betuOszlo1++;
-
-                return $"{karakterMatrix[betuSor1, betuOszlo1]}{karakterMatrix[betuSor2, betuOszlo2]}";
-            }
-
-            if(betuOszlo1+1 == betuOszlo2 && betuSor1 == betuSor2)
-            {
-                betuOszlo1++;
-                betuOszlo2++;
-                return $"{karakterMatrix[betuSor1, betuOszlo1]}{karakterMatrix[betuSor2, betuOszlo2]}";
-            }
-
-            if (betuSor1 + 1 >= 5)
-            {
-                betuSor1 = 0;
-                betuSor2++;
-
-                return $"{karakterMatrix[betuSor1, betuOszlo1]}{karakterMatrix[betuSor2, betuOszlo2]}";
-            }
-
-            if (betuSor2 + 1 >= 5)
-            {
-                betuSor2 = 0;
-                betuSor1++;
-
-                return $"{karakterMatrix[betuSor1, betuOszlo1]}{karakterMatrix[betuSor2, betuOszlo2]}";
-            }
-
-            if (betuOszlo1 == betuOszlo2 && betuSor1+1 == betuSor2)
-            {
-                betuSor1++;
-                betuSor2++;
-                return $"{karakterMatrix[betuSor1, betuOszlo1]}{karakterMatrix[betuSor2, betuOszlo2]}";
-            }
-
-            if(betuOszlo1 != betuOszlo2 && betuSor1 != betuSor2)
-            {
-                return $"{karakterMatrix[betuSor1, karakterMatrix.GetLength(1) - (betuOszlo1 + 1)]}{karakterMatrix[betuSor2, karakterMatrix.GetLength(1) - (betuOszlo2 + 1)]}";
-            }
-
-            return $"{karakterMatrix[betuSor1, betuOszlo1]}{karakterMatrix[betuSor2, betuOszlo2]}";
+            if (Index(bp[0]).S == Index(bp[1]).S) return
+                    $"{karakterMatrix[Index(bp[0]).S, Index(bp[0]).O == 4 ? 0 : Index(bp[0]).O + 1]}" +
+                    $"{karakterMatrix[Index(bp[1]).S, Index(bp[1]).O == 4 ? 0 : Index(bp[1]).O + 1]}";
+            else if (Index(bp[0]).O == Index(bp[1]).O) return
+                    $"{karakterMatrix[Index(bp[0]).S == 4 ? 0 : Index(bp[0]).S + 1, Index(bp[0]).O]}" +
+                    $"{karakterMatrix[Index(bp[1]).S == 4 ? 0 : Index(bp[1]).S + 1, Index(bp[1]).O]}";
+            else return
+                    $"{karakterMatrix[Index(bp[0]).S, Index(bp[1]).O]}" +
+                    $"{karakterMatrix[Index(bp[1]).S, Index(bp[0]).O]}";
         }
+
+        public (int S, int O) Index(char c)
+        {
+            for (int s = 0; s < karakterMatrix.GetLength(0); s++)
+                for (int o = 0; o < karakterMatrix.GetLength(1); o++)
+                    if (karakterMatrix[s, o] == c) return new(s, o);
+            return new(-1, -1);
+        }
+
     }
 }
